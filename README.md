@@ -1,4 +1,4 @@
-# Documentation for 4x4 Puzzle Solver with Pygame
+# 4x4 Puzzle Solver with Pygame
 
 ## Overview
 
