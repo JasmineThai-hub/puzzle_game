@@ -46,7 +46,6 @@ def draw_puzzle(screen, puzzle):
             number = puzzle[y * BOARD_SIZE + x]
             if number:  # Don't draw the empty tile (0)
                 draw_tile(screen, number, x, y)
-    pygame.display.flip()
 
 def move_tile(puzzle, direction):
     # Convert linear puzzle to 2D for easier navigation
@@ -142,6 +141,7 @@ def main():
             if current_path_index < len(path):
                 puzzle = path[current_path_index]
                 draw_puzzle(screen, puzzle)
+                pygame.display.flip()
                 current_path_index += 1
                 pygame.time.wait(500)
             else:
