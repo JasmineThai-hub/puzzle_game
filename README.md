@@ -1,4 +1,4 @@
-# Documentation for 4x4 Puzzle Solver with Pygame
+# Puzzle Generator and Solver with Pygame
 
 ## Overview
 
@@ -74,6 +74,6 @@ The `main()` function establishes the primary game loop, handling user inputs an
 - Draws the current puzzle state and buttons on each iteration.
 
 ## How to Run:
-1. Ensure all dependencies (Pygame and solver) are correctly installed.
+1. Ensure all dependencies (Python and Pygame) are correctly installed.
 2. Run the script. you can execute python puzzle_game.py in the terminal.
 3. Enjoy!
