@@ -1,4 +1,4 @@
-# 4x4 Puzzle Solver with Pygame
+# Puzzle Generator and Solver with Pygame
 
 ## Overview
 
