@@ -1,5 +1,4 @@
 from solver import *
-import pygame
 from pygame.locals import KEYDOWN, K_UP, K_DOWN, K_LEFT, K_RIGHT
 from constants import *
 
@@ -104,7 +103,7 @@ path = []
 def main():
     global puzzle, solved_puzzle, is_solving, current_path_index, path
     screen = pygame.display.set_mode((WIDTH, HEIGHT + 50))  # Add extra space for buttons
-    pygame.display.set_caption("4x4 Puzzle Solver")
+    pygame.display.set_caption("Puzzle Solver")
 
     buttons = [
         Button(10, HEIGHT + 10, 100, 30, "Give Up", give_up),
