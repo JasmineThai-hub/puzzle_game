@@ -1,4 +1,4 @@
-# Puzzle Generator and Solver with Pygame
+# Sliding Puzzle Generator and Solver with Pygame
 
 ## Overview
 
