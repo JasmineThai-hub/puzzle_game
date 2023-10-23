@@ -15,6 +15,7 @@ FONT = pygame.font.SysFont('comicsansms', 36)
 BORDER_SIZE = 5  # Width of the border in pixels
 BORDER_COLOR = (0, 0, 0)  # Color of the border, set to black
 shuffle_num = 200
+solve_speed = 300
 
 # Additional constants for buttons
 BUTTON_COLOR = (150, 150, 150)

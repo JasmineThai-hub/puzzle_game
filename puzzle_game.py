@@ -1,28 +1,8 @@
 from solver import *
 from pygame.locals import KEYDOWN, K_UP, K_DOWN, K_LEFT, K_RIGHT
 from constants import *
-
-
-class Button:
-    def __init__(self, x, y, w, h, text, action):
-        self.rect = pygame.Rect(x, y, w, h)
-        self.text = text
-        self.action = action
-        self.hovered = False
-
-    def handle_event(self, event):
-        if event.type == pygame.MOUSEMOTION:
-            self.hovered = self.rect.collidepoint(event.pos)
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            if self.hovered:
-                self.action()
-
-    def draw(self, screen):
-        color = BUTTON_HOVER_COLOR if self.hovered else BUTTON_COLOR
-        pygame.draw.rect(screen, color, self.rect)
-        text = BUTTON_FONT.render(self.text, True, BUTTON_TEXT_COLOR)
-        text_rect = text.get_rect(center=self.rect.center)
-        screen.blit(text, text_rect)
+import json
+from button import Button
 
 
 def draw_tile(screen, number, x, y):
@@ -77,19 +57,40 @@ def generate_puzzle():
     print("Generated Puzzle:")
     slide_print(puzzle)
 
+def save_solution_to_file(puzzle_str, movesList):
+    """
+    Saves the solution to the 'solved.json' file.
+    """
+    data = {}
+    try:
+        with open('solved.json', 'r') as file:
+            data = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        pass  # If file not found or empty, we'll create it
+
+    data[puzzle_str] = movesList  # Add/Update the puzzle solution
+
+    with open('solved.json', 'w') as file:
+        json.dump(data, file, indent=4)
+
 def give_up():
     global puzzle, solved_puzzle, is_solving, current_path_index, path
     heuristic = slide_wd(n, solved_puzzle)
     solver = IDAStar(heuristic, slide_neighbours(n))
-    path, path_descrs, bound, nodes_evaluated = solver.solve(puzzle, lambda p: p == solved_puzzle)
+    path, moves, bound, nodes_evaluated = solver.solve(puzzle, lambda p: p == solved_puzzle)
 
     print("\nSolution:")
     for p in path:
         slide_print(p)
         print("")
+        contents = ", ".join({-1: "Left", 1: "Right", -4: "Up", 4: "Down"}[move[1]] for move in moves)
 
     print("Number of steps:", len(path) - 1)
     print("Nodes evaluated:", nodes_evaluated)
+    movesList = contents.split(', ')
+    puzzle_str = ' '.join(map(str, puzzle))
+    save_solution_to_file(puzzle_str, movesList)
+    print("Saved to solved.json!")
 
     # Set the flag and reset the index
     is_solving = True
@@ -143,7 +144,7 @@ def main():
                 draw_puzzle(screen, puzzle)
                 pygame.display.flip()
                 current_path_index += 1
-                pygame.time.wait(500)
+                pygame.time.wait(solve_speed)
             else:
                 is_solving = False
 
