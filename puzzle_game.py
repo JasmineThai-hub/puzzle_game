@@ -96,6 +96,16 @@ def give_up():
     is_solving = True
     current_path_index = 0
 
+def display_win_message(screen):
+    messages = ["Congratulations,", "you solved the puzzle!"]
+    for index, message in enumerate(messages):
+        text = FONT.render(message, True, (255, 0, 0))  # Red color
+        text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + index * FONT.get_height()))
+        screen.blit(text, text_rect)
+    pygame.display.flip()
+    pygame.time.wait(2000)  # Wait for 2 seconds
+
+
 
 is_solving = False
 current_path_index = 0
@@ -152,6 +162,11 @@ def main():
             draw_puzzle(screen, puzzle)
             for button in buttons:
                 button.draw(screen)
+
+            # Check if puzzle is solved
+            if puzzle == solved_puzzle:
+                display_win_message(screen)
+                generate_puzzle()  # Generate a new puzzle for the user
             pygame.display.flip()
 
     pygame.quit()
