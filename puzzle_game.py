@@ -29,6 +29,7 @@ def draw_puzzle(screen, puzzle):
 
 def move_tile(puzzle, direction):
     # Convert linear puzzle to 2D for easier navigation
+    global puzzle_2d
     puzzle_2d = [list(puzzle[i:i+BOARD_SIZE]) for i in range(0, len(puzzle), BOARD_SIZE)]
     for y in range(BOARD_SIZE):
         for x in range(BOARD_SIZE):
@@ -111,7 +112,7 @@ is_solving = False
 current_path_index = 0
 path = []
 def main():
-    global puzzle, solved_puzzle, is_solving, current_path_index, path
+    global puzzle, solved_puzzle, is_solving, current_path_index, path, puzzle_2d
     screen = pygame.display.set_mode((WIDTH, HEIGHT + 50))  # Add extra space for buttons
     pygame.display.set_caption("Puzzle Solver")
 
@@ -123,6 +124,7 @@ def main():
 
     # Shuffle the solved puzzle
     puzzle = solved_puzzle
+
     for _ in range(shuffle_num):  # Shuffle with shuffle_num moves
         _, puzzle, _ = random.choice(list(slide_neighbours(n)(puzzle)))
 
@@ -131,6 +133,7 @@ def main():
 
     running = True
     while running:
+        puzzle_2d = [list(puzzle[i:i + BOARD_SIZE]) for i in range(0, len(puzzle), BOARD_SIZE)]
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -145,6 +148,7 @@ def main():
                         puzzle = move_tile(puzzle, "left")
                     elif event.key == K_RIGHT:
                         puzzle = move_tile(puzzle, "right")
+
                 for button in buttons:
                     button.handle_event(event)
 
@@ -164,7 +168,7 @@ def main():
                 button.draw(screen)
 
             # Check if puzzle is solved
-            if puzzle == solved_puzzle:
+            if puzzle == solved_puzzle or puzzle_2d == [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 0]]:
                 display_win_message(screen)
                 generate_puzzle()  # Generate a new puzzle for the user
             pygame.display.flip()
